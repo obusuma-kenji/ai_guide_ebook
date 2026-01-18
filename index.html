@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPTを触って挫折した人へ｜30代会社員のためのAI活用実践ガイド</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2874A6;
+            --primary-dark: #1a5490;
+            --secondary: #3498db;
+            --accent: #5DADE2;
+            --success: #27AE60;
+            --bg-light: #F8F9FA;
+            --bg-gray: #ECF0F1;
+            --text-dark: #2C3E50;
+            --text-medium: #34495E;
+            --text-light: #7F8C8D;
+            --border: #BDC3C7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: white;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-cta {
+            background: white;
+            color: var(--primary);
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            border-radius: 50%;
+            top: -300px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(30px) translateX(-30px); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 1.3rem 3.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .hero-note {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .problem-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .problem-card p {
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+
+        /* Solution */
+        .solution {
+            background: white;
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .solution-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .solution-text p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-highlight {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(40, 116, 166, 0.2);
+        }
+
+        .roadmap {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .roadmap-step {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .roadmap-step:hover {
+            background: var(--bg-light);
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+
+        /* Features */
+        .features {
+            background: var(--bg-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+
+        /* Contents */
+        .contents {
+            background: white;
+        }
+
+        .chapter-list {
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chapter {
+            background: var(--bg-light);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--secondary);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .chapter:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .chapter-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .chapter h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin-bottom: 0.8rem;
+        }
+
+        .chapter p {
+            color: var(--text-medium);
+        }
+
+        /* Target */
+        .target {
+            background: var(--bg-light);
+        }
+
+        .target-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .target-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .target-item:hover {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .target-item:hover .check {
+            background: white;
+            color: var(--primary);
+        }
+
+        .check {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            line-height: 50px;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 1.4rem 4rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .cta-price {
+            margin-top: 2rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .cta-note {
+            margin-top: 1rem;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .solution-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-cta {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">AI活用実践ガイド</div>
+            <a href="ai_guide_ebook.pdf" download="ChatGPTを触って挫折した人へ.pdf" class="nav-cta">今すぐダウンロード</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">30代ビジネスパーソン向け</div>
+            <h1>ChatGPTを触って<br>挫折した人へ</h1>
+            <p class="hero-subtitle">「能力」ではなく「順番」を変えるだけ。<br>AI を仕事で使えるようになるまでの全手順</p>
+            <p class="hero-description">
+                忙しくて時間がない、ITが得意じゃない、そんな普通の30代会社員でも、<br>
+                正しい順番で進めるだけで、AIを「手放せない相棒」にできます。
+            </p>
+            <a href="ai_guide_ebook.pdf" download="ChatGPTを触って挫折した人へ.pdf" class="hero-cta">無料で電子書籍を入手</a>
+            <p class="hero-note">PDF形式 / 即ダウンロード可能</p>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <h2 class="section-title">こんな悩みを抱えていませんか？</h2>
+            <div class="problem-grid">
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">🤔</div>
+                    <h3>何から始めればいいか分からない</h3>
+                    <p>ChatGPTを開いてみたけど、「で、何を聞けばいいの？」と途方に暮れている。</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">😫</div>
+                    <h3>思ったより使えなかった</h3>
+                    <p>試してみたけど、イマイチな答えが返ってきて「これじゃ仕事に使えない」と感じた。</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">⏰</div>
+                    <h3>覚える時間がない</h3>
+                    <p>目の前の仕事で精一杯。新しいツールを学ぶ余裕なんてない。</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <div class="problem-icon">📚</div>
+                    <h3>難しそうで怖い</h3>
+                    <p>「プロンプトエンジニアリング」とか専門用語が多くて、自分には無理だと思ってしまう。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <h2 class="section-title">実は、失敗の原因は「順番」だけでした</h2>
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h3>能力の問題ではありません</h3>
+                    <p>AI活用がうまくいかない理由は、「センス」や「ITスキル」ではありません。ほぼすべての失敗は、「順番」を間違えているだけです。</p>
+                    <p>いきなりツールを触る、目的が曖昧なまま使う、完璧な成果を求める——この順番では、誰でもつまずきます。</p>
+                    <div class="solution-highlight">
+                        正しい順番で進めば、<br>
+                        AIは「手放せない相棒」に変わる
+                    </div>
+                    <p>この本では、難しい技術論は一切なし。プログラミングも不要。普通の30代会社員が、正しい順番でAIと向き合い、仕事を劇的に変えていく方法をお伝えします。</p>
+                </div>
+                <div class="roadmap">
+                    <div class="roadmap-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>分解する（STEP1）</h4>
+                            <p>自分の仕事を棚卸しして、AIに任せる部分を見つける</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>相棒にする（STEP2）</h4>
+                            <p>コピペOKのプロンプト集で、AI に指示を出せるようになる</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>組み合わせる（STEP3）</h4>
+                            <p>スマホと無料ツールでプチ自動化を実現</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>見せる（STEP4）</h4>
+                            <p>楽になった分を「成果」に変えて評価を上げる</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>生き残る（STEP5）</h4>
+                            <p>AI時代に選ばれるキャリア戦略を構築</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">この本の3つの特徴</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>実践的なプロンプト集</h3>
+                    <p>明日からコピペで使える「鉄板プロンプト」を厳選。壁打ち、メール下書き、要約など、即戦力のテンプレートを提供します。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>挫折しない5ステップ</h3>
+                    <p>10年先も使える「思考のロードマップ」。ツールが変わっても応用が利く、一生モノの考え方が身につきます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>30代に特化した内容</h3>
+                    <p>現場経験という「最強の武器」を活かす方法を解説。若手にはない「判断力」が、AI時代の価値になります。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contents -->
+    <section class="contents">
+        <div class="container">
+            <h2 class="section-title">本書の内容</h2>
+            <div class="chapter-list">
+                <div class="chapter">
+                    <span class="chapter-number">はじめに</span>
+                    <h3>AIは「意識高い系」のものだと思っていませんか？</h3>
+                    <p>AI活用がうまくいかない理由は、「センス」でも「ITスキル」でもなく、「順番」を間違えているだけです。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第1章</span>
+                    <h3>「頑張っているのに報われない」30代会社員の逆襲</h3>
+                    <p>定時帰りの後輩vs残業続きの自分。その差は「能力」ではなく「武器」でした。30代の現場経験こそが最強の燃料になる理由。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第2章</span>
+                    <h3>なぜ、あなたのAI活用は三日坊主で終わるのか</h3>
+                    <p>3つの失敗パターン：①目的ゼロでいきなりツール、②AIを魔法の杖だと思っている、③難しく考えすぎている。すべての原因は「順番」にあります。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第3章</span>
+                    <h3>AIは「仕事を奪う敵」ではなく「面倒を押し付ける相棒」</h3>
+                    <p>AIが奪うのは「仕事（Job）」ではなく「作業（Task）」だけ。30代の「おじさん力」が、まさかの武器になる理由を解説。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第4章</span>
+                    <h3>挫折しないための「正しい順番（ロードマップ）」</h3>
+                    <p>成功への最短ルート「5ステップ」を公開。この地図さえあれば、どんな新しい技術が来ても怖くありません。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第5章</span>
+                    <h3>STEP1：AIに投げる仕事がザクザク見つかる「業務仕分け術」</h3>
+                    <p>「考える仕事」と「ただの作業」を分ける方法。昨日の仕事を棚卸しして、AI委任の優先度をチェックします。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第6章</span>
+                    <h3>STEP2：明日から使える「コピペOK」プロンプト集</h3>
+                    <p>指示の黄金ルールと、保存版の鉄板プロンプト3選。壁打ち、メール下書き、要約のテンプレートをそのまま使えます。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第7章</span>
+                    <h3>STEP3：スマホと無料ツールで「プチ自動化」を始める</h3>
+                    <p>音声入力×AI、単語登録の秘密兵器。仕事を「点」ではなく「流れ」で作る方法を伝授します。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第8章</span>
+                    <h3>STEP4：「AIで楽をした」と言わずに評価を上げる技術</h3>
+                    <p>上司を納得させる言い換え術と、数字で語る成果の示し方。チームに広げて「AI担当」のポジションを取る方法も。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第9章</span>
+                    <h3>STEP5：AI時代に「食いっぱぐれない」キャリア戦略</h3>
+                    <p>目指すべきは「作業者」ではなく「編集長」。30代の泥臭い経験が最強の防具になる理由と、変化を楽しむマインドの作り方。</p>
+                </div>
+                <div class="chapter">
+                    <span class="chapter-number">第10章</span>
+                    <h3>未来は「選んだ人」から変わっていく</h3>
+                    <p>必要なのは勇気ではなく実験精神。今日からできる、たった一つの約束で、AIと共に働く未来が始まります。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target -->
+    <section class="target">
+        <div class="container">
+            <h2 class="section-title">こんな方におすすめです</h2>
+            <div class="target-grid">
+                <div class="target-item">
+                    <div class="check">✓</div>
+                    <p>ChatGPTを触ってみたけど挫折した30代会社員</p>
+                </div>
+                <div class="target-item">
+                    <div class="check">✓</div>
+                    <p>AIに興味はあるが何から始めればいいか分からない方</p>
+                </div>
+                <div class="target-item">
+                    <div class="check">✓</div>
+                    <p>忙しくて新しいツールを学ぶ時間がない方</p>
+                </div>
+                <div class="target-item">
+                    <div class="check">✓</div>
+                    <p>ITが得意ではないけどAIを仕事に活かしたい方</p>
+                </div>
+                <div class="target-item">
+                    <div class="check">✓</div>
+                    <p>頑張っているのに報われない疲労感を感じている方</p>
+                </div>
+                <div class="target-item">
+                    <div class="check">✓</div>
+                    <p>AI時代に取り残されたくないと感じている方</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <h2>今すぐAIを相棒にしませんか？</h2>
+            <p>完璧じゃなくていい。不安があってもいい。<br>必要なのは、正しい「順番」を知ることだけです。</p>
+            <a href="ai_guide_ebook.pdf" download="ChatGPTを触って挫折した人へ.pdf" class="cta-button">無料で電子書籍をダウンロード</a>
+            <p class="cta-price">完全無料</p>
+            <p class="cta-note">PDF形式 / 即ダウンロード可能 / プロンプト集付き</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 AI活用実践ガイド. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
